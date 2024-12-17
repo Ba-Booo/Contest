@@ -27,13 +27,13 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        nowdashGauge = maxdashGauge;
         rb = GetComponent<Rigidbody2D>();
     }
 
 
     void Update()
     {
-
         Move();
 
     }
