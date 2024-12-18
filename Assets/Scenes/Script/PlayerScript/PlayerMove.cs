@@ -8,26 +8,27 @@ public class PlayerMove : MonoBehaviour
     float moveX, moveY;
 
     public float playerSpeed;           //움직임
-    public float dashSpeed;
+    public float slowMotionSpeed;
 
     bool jumpPrevention = false;        //점프
     public float jumpPower;            
 
-    float nowdashGauge;                 //대쉬
-    public float maxdashGauge;
-    float nextDashTime;
-    public float dashRate;
+    float nowSlowMotionGauge;           //슬로우모션
+    public float maxSlowMotionGauge;
+    float nextSlowMotionTime;
+    public float slowMotionRate;
 
-
-    float mouseAngle;
-    public GameObject dashRange;
+    float mouseAngle;                   
+    public GameObject attackRange;
     public GameObject mousePartical;
+
+    public float dashSpeed;             //대쉬
 
     Rigidbody2D rb;
 
     void Start()
     {
-        nowdashGauge = maxdashGauge;
+        nowSlowMotionGauge = maxSlowMotionGauge;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -42,9 +43,9 @@ public class PlayerMove : MonoBehaviour
     {
 
         //움직임
-        if( Input.GetKey( KeyCode.LeftShift ) &&  nowdashGauge >= 0 && nextDashTime <= Time.time )
+        if( Input.GetKey( KeyCode.LeftShift ) &&  nowSlowMotionGauge >= 0 && nextSlowMotionTime <= Time.time )      //슬로우모션
         {
-            Dash();
+            SlowMotion();
         }
         else
         {
@@ -53,13 +54,14 @@ public class PlayerMove : MonoBehaviour
             Time.timeScale = 1f;
         }
 
-        //대쉬딜레이
-        if( Input.GetKeyUp( KeyCode.LeftShift ) && nextDashTime <= Time.time )
+        //슬로우 모션 후
+        if( ( Input.GetKeyUp( KeyCode.LeftShift ) && nextSlowMotionTime <= Time.time ) | nowSlowMotionGauge <= 0)
         {
-            nextDashTime = Time.time + dashRate;
-            nowdashGauge = maxdashGauge;
-            dashRange.SetActive(false);
+            nextSlowMotionTime = Time.time + slowMotionRate;
+            nowSlowMotionGauge = maxSlowMotionGauge;
+            attackRange.SetActive(false);
             mousePartical.SetActive(false);
+            Dash();
 
         }   
 
@@ -74,34 +76,40 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    void Dash()
+    void SlowMotion()
     {
 
-        //대쉬 그래픽
-        dashRange.SetActive(true);
+        //그래픽 관련
+        attackRange.SetActive(true);
         mousePartical.SetActive(true);
 
+        //방향
    	    mouseAngle = Mathf.Atan2( mousePartical.transform.position.y - transform.position.y, mousePartical.transform.position.x - transform.position.x ) * Mathf.Rad2Deg;
-   	    dashRange.transform.rotation = Quaternion.AngleAxis( mouseAngle - 90, Vector3.forward );
+   	    attackRange.transform.rotation = Quaternion.AngleAxis( mouseAngle - 90, Vector3.forward );
 
-        //대쉬움직임
-        moveX = Input.GetAxisRaw("Horizontal") * dashSpeed * Time.deltaTime;
-        moveY = Input.GetAxisRaw("Vertical") * dashSpeed * Time.deltaTime;
+        //움직임
+        moveX = Input.GetAxisRaw("Horizontal") * slowMotionSpeed * Time.deltaTime;
+        moveY = Input.GetAxisRaw("Vertical") * slowMotionSpeed * Time.deltaTime;
         
-        //대쉬 게이지
+        //느려짐 시전시간
         if( Input.GetAxisRaw("Horizontal") != 0 | Input.GetAxisRaw("Vertical") != 0 )
         {
-            nowdashGauge -= Time.deltaTime * 30;
+            nowSlowMotionGauge -= Time.deltaTime * 30;
         }
         else
         {
-            nowdashGauge -= Time.deltaTime * 5;
+            nowSlowMotionGauge -= Time.deltaTime * 5;
         }
 
-        //시간
+        //시간 조절
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
 
+    }
+
+    void Dash()
+    {
+        rb.velocity = (mousePartical.transform.position - transform.position).normalized * dashSpeed;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
