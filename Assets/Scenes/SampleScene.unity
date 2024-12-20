@@ -5866,12 +5866,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 10
   slowMotionSpeed: 100
+  jumpPrevention: 0
   jumpPower: 10
   maxSlowMotionGauge: 3
   slowMotionRate: 1
   attackRange: {fileID: 140066936}
   mousePartical: {fileID: 1095884917}
-  dashSpeed: 3
+  dashSpeed: 300
 --- !u!212 &1379567356
 SpriteRenderer:
   m_ObjectHideFlags: 0

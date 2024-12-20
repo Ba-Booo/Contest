@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     public float playerSpeed;           //움직임
     public float slowMotionSpeed;
 
-    bool jumpPrevention = false;        //점프
+    public bool jumpPrevention = false;        //점프
     public float jumpPower;            
 
     float nowSlowMotionGauge;           //슬로우모션
@@ -61,7 +61,7 @@ public class PlayerMove : MonoBehaviour
             nowSlowMotionGauge = maxSlowMotionGauge;
             attackRange.SetActive(false);
             mousePartical.SetActive(false);
-            Dash();
+            StartCoroutine( Dash() );
 
         }   
 
@@ -107,9 +107,20 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    void Dash()
+    IEnumerator Dash()
     {
+
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.drag = dashSpeed / 8;
+
         rb.velocity = (mousePartical.transform.position - transform.position).normalized * dashSpeed;
+
+        yield return new WaitForSeconds(0.1f);
+
+        rb.drag = 0f;
+        rb.gravityScale = originalGravity;
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)
