@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a858e4558b4cf49c5ad2797d07e6ea53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1379567357}
+  target: {fileID: 1379567354}
   cameraMoveSpeed: 10
 --- !u!1 &619394800
 GameObject:
@@ -5825,7 +5825,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304215422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5707539, y: 7.51, z: 1.28}
+  m_LocalPosition: {x: 2.26, y: 7.51, z: 1.28}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5867,12 +5867,13 @@ MonoBehaviour:
   playerSpeed: 10
   slowMotionSpeed: 100
   jumpPrevention: 0
-  jumpPower: 10
+  jumpPower: 20
   maxSlowMotionGauge: 3
   slowMotionRate: 1
   attackRange: {fileID: 140066936}
   mousePartical: {fileID: 1095884917}
   dashSpeed: 300
+  dashAttact: 0
 --- !u!212 &1379567356
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5955,9 +5956,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

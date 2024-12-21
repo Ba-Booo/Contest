@@ -5,18 +5,30 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
 
-    public Transform target;
+    public GameObject target;
+    PlayerMove pm;
+
     public float cameraMoveSpeed;
 
     void Start()
     {
-        
+        pm = target.GetComponent<PlayerMove>();
     }
 
     void LateUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, target.position, cameraMoveSpeed * Time.deltaTime);       //부드러운 이동
+
+        if( pm.dashAttact )
+        {
+            transform.position = Vector3.Lerp(transform.position, target.transform.position, 100f * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, target.transform.position, cameraMoveSpeed * Time.deltaTime);
+        }
+
         transform.position = new Vector3(transform.position.x, transform.position.y, -30);
+
     }
 
 }

@@ -23,6 +23,7 @@ public class PlayerMove : MonoBehaviour
     public GameObject mousePartical;
 
     public float dashSpeed;             //대쉬
+    public bool dashAttact;
 
     Rigidbody2D rb;
 
@@ -110,16 +111,15 @@ public class PlayerMove : MonoBehaviour
     IEnumerator Dash()
     {
 
-        float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
         rb.drag = dashSpeed / 8;
+        dashAttact = true;
 
         rb.velocity = (mousePartical.transform.position - transform.position).normalized * dashSpeed;
 
         yield return new WaitForSeconds(0.1f);
 
-        rb.drag = 0f;
-        rb.gravityScale = originalGravity;
+        rb.drag = 1f;
+        dashAttact = false;
 
     }
 
