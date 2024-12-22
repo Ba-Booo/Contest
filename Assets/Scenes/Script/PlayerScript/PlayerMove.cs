@@ -7,36 +7,47 @@ public class PlayerMove : MonoBehaviour
 
     float moveX, moveY;
 
-    public float playerSpeed;           //움직임
+    public float playerSpeed;                   //움직임
     public float slowMotionSpeed;
 
-    public bool jumpPrevention = false;        //점프
+    SpriteRenderer sr;                          //에니메이션
+
+    public bool jumpPrevention = false;         //점프
     public float jumpPower;            
 
-    float nowSlowMotionGauge;           //슬로우모션
+    float nowSlowMotionGauge;                   //슬로우모션
     public float maxSlowMotionGauge;
     float nextSlowMotionTime;
     public float slowMotionRate;
 
-    float mouseAngle;                   
+    float mouseAngle;                           //대쉬 방향
     public GameObject attackRange;
     public GameObject mousePartical;
 
-    public float dashSpeed;             //대쉬
+    public float maxDashDistance;               //대쉬
     public bool dashAttact;
 
     Rigidbody2D rb;
+    CapsuleCollider2D cldr;
 
     void Start()
     {
+        
         nowSlowMotionGauge = maxSlowMotionGauge;
+
+        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        cldr = GetComponent<CapsuleCollider2D>();
+       
     }
 
 
     void Update()
     {
+
+        Debug.DrawRay(transform.position, mousePartical.transform.position - transform.position, Color.red);
         Move();
+        Animation();
 
     }
 
@@ -50,19 +61,38 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
+
             moveY = 0;
             moveX = Input.GetAxis("Horizontal") * playerSpeed * Time.deltaTime;
+
             Time.timeScale = 1f;
+            Time.fixedDeltaTime = 0.02f;
+
         }
 
         //슬로우 모션 후
         if( ( Input.GetKeyUp( KeyCode.LeftShift ) && nextSlowMotionTime <= Time.time ) | nowSlowMotionGauge <= 0)
         {
+
             nextSlowMotionTime = Time.time + slowMotionRate;
             nowSlowMotionGauge = maxSlowMotionGauge;
             attackRange.SetActive(false);
             mousePartical.SetActive(false);
-            StartCoroutine( Dash() );
+
+            //판정(벽뚫방지)
+            int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
+            RaycastHit2D hit = Physics2D.Raycast( transform.position, mousePartical.transform.position - transform.position, maxDashDistance, groundLayerMask);
+
+            if( hit )
+            {
+                Debug.Log("아니, 내가 고자라니!! 이게 무슨 소리야!? 에잇, 고자라니!! 내가, 내가 고자라니!!!");
+                StartCoroutine( Dash( ( Vector3.Distance( transform.position, hit.point ) ) - 1f ) );
+            }
+            else
+            {
+                Debug.Log("팀의 체력을 책임진다. 인간 성기사, 뿌뿌뿡!");
+                StartCoroutine( Dash( maxDashDistance ) );
+            }
 
         }   
 
@@ -76,6 +106,27 @@ public class PlayerMove : MonoBehaviour
         transform.position = new Vector2( transform.position.x + moveX, transform.position.y + moveY );
 
     }
+
+    void Animation()
+    {
+
+        switch( Input.GetAxisRaw("Horizontal") )
+        {
+
+            case -1:
+
+                sr.flipX = true;
+                break;
+
+            case 1:
+
+                sr.flipX = false;
+                break; 
+
+        }
+
+    }
+
 
     void SlowMotion()
     {
@@ -105,36 +156,77 @@ public class PlayerMove : MonoBehaviour
         //시간 조절
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        
 
     }
 
-    IEnumerator Dash()
+    IEnumerator Dash( float dashDistance )
     {
 
-        rb.drag = dashSpeed / 8;
+        rb.drag = ( 35f * dashDistance ) / 8f;
+        cldr.isTrigger = true;
         dashAttact = true;
 
-        rb.velocity = (mousePartical.transform.position - transform.position).normalized * dashSpeed;
+        //벽뚫방지
+        if( jumpPrevention && dashDistance != maxDashDistance )
+        {
 
-        yield return new WaitForSeconds(0.1f);
+            Debug.Log(attackRange.transform.eulerAngles.z);
+            if( 180f <= attackRange.transform.eulerAngles.z && attackRange.transform.eulerAngles.z < 360f )
+            {
+                Debug.Log("고구마 호박 몰라? 호박맛 나는 노오란 고구마");
+                rb.velocity = Vector2.right * 20f * dashDistance;
+            }
+            else
+            {
+                rb.velocity = Vector2.left * 20f * dashDistance;
+                Debug.Log("마이너한 버그는 있을 수 있다는점");
+            }
+            
+        }
+        else
+        {
+            rb.velocity = ( mousePartical.transform.position - transform.position ).normalized * 35f * dashDistance;
+        }
+
+        yield return new WaitForSeconds(0.15f);
 
         rb.drag = 1f;
+        cldr.isTrigger = false;
         dashAttact = false;
 
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionStay2D( Collision2D collision )
     {
 
-        if(collision.gameObject.tag == "Ground")
+        //점프관련
+        if(collision.gameObject.tag == "Ground" | collision.gameObject.tag == "Enemy")
         {
             jumpPrevention = true;
         }
-        else
+        
+    }
+
+    void OnCollisionExit2D( Collision2D collision )
+    {
+
+        //점프관련
+        if(collision.gameObject.tag == "Ground" | collision.gameObject.tag == "Enemy")
         {
             jumpPrevention = false;
         }
         
+    }
+
+    void OnTriggerEnter2D( Collider2D collision )
+    {
+        
+        if(collision.gameObject.tag == "Ground")
+        {
+            cldr.isTrigger = false;
+        }
+
     }
 
 }

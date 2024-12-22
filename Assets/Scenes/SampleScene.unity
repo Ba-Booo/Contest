@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 75684387}
   - component: {fileID: 75684386}
   - component: {fileID: 75684388}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -201,8 +201,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75684385}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5391, y: -1.8523, z: 1.67}
-  m_LocalScale: {x: -35.102264, y: 1.0247, z: 1}
+  m_LocalPosition: {x: 2.5391, y: -6.54, z: 1.67}
+  m_LocalScale: {x: -35.102264, y: 10.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -587,7 +587,7 @@ GameObject:
   - component: {fileID: 1068720936}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -666,8 +666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60114117cb9b14b279f6bf1fd0f61668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 0
-  nowHp: 0
+  maxHp: 3
+  nowHp: 3
   viewingRange: 15
   attackRange: 10
   target: {fileID: 1379567357}
@@ -5598,7 +5598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1153009806
 Transform:
   m_ObjectHideFlags: 0
@@ -5845,7 +5845,7 @@ GameObject:
   - component: {fileID: 1379567355}
   - component: {fileID: 1379567359}
   - component: {fileID: 1379567358}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -5872,7 +5872,7 @@ MonoBehaviour:
   slowMotionRate: 1
   attackRange: {fileID: 140066936}
   mousePartical: {fileID: 1095884917}
-  dashSpeed: 300
+  maxDashDistance: 8.5
   dashAttact: 0
 --- !u!212 &1379567356
 SpriteRenderer:
@@ -5968,7 +5968,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &1379567359
 CapsuleCollider2D:
