@@ -167,8 +167,6 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-
-
     IEnumerator Dash( float dashDistance )
     {
 
@@ -203,6 +201,7 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
 
         DashAttackJudgment.SetActive(false);
+
 
         yield return new WaitForSeconds(0.10f);
 

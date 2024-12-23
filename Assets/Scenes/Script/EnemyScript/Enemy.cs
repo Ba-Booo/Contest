@@ -9,6 +9,9 @@ public class Enemy : MonoBehaviour
     public int maxHp;
     public int nowHp;
 
+    //쥬금
+    public GameObject bloodParticle;
+
     // 거리
     float distance;
     public float viewingRange;
@@ -33,11 +36,6 @@ public class Enemy : MonoBehaviour
     {
         EnemyMove();
 
-        if(nowHp <= 0)
-        {
-            Destroy(this.gameObject, 2);
-        }
-
     }
 
     void EnemyMove()
@@ -59,10 +57,14 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D( Collider2D collision )
     {
-        
+
+        Debug.Log(transform.eulerAngles.x);
+     
         if(collision.gameObject.tag == "PlayerAttack")
         {
             Debug.Log("내가 고자라니");
+            float bloodAngle =  Mathf.Atan2( target.position.y - transform.position.y, target.position.x - transform.position.x ) * Mathf.Rad2Deg;
+            Instantiate( bloodParticle, transform.position, Quaternion.AngleAxis( bloodAngle + 90, Vector3.forward ) );
             Destroy(this.gameObject);
         }
 

@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &537576133041713748
 SpriteRenderer:
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 3
   nowHp: 3
+  bloodParticle: {fileID: 5695577022004569089, guid: 9852fcde948d74df2b9c2f83c28d6e25, type: 3}
   viewingRange: 15
   attackRange: 10
   target: {fileID: 0}
