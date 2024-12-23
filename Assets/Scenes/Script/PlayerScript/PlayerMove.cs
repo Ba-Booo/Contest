@@ -25,7 +25,8 @@ public class PlayerMove : MonoBehaviour
     public GameObject mousePartical;
 
     public float maxDashDistance;               //대쉬
-    public bool dashAttact;
+    public bool dashing;
+    public GameObject DashAttackJudgment;
 
     Rigidbody2D rb;
     CapsuleCollider2D cldr;
@@ -41,15 +42,43 @@ public class PlayerMove : MonoBehaviour
        
     }
 
-
     void Update()
     {
-
+        
         Debug.DrawRay(transform.position, mousePartical.transform.position - transform.position, Color.red);
         Move();
         Animation();
 
     }
+
+    void LateUpdate()
+    {
+        //슬로우 모션 후
+        if( ( Input.GetKeyUp( KeyCode.LeftShift ) && nextSlowMotionTime <= Time.time ) | nowSlowMotionGauge <= 0)
+        {
+
+            nextSlowMotionTime = Time.time + slowMotionRate;
+            nowSlowMotionGauge = maxSlowMotionGauge;
+            attackRange.SetActive(false);
+            mousePartical.SetActive(false);
+
+            //판정(벽뚫방지)
+            int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");                 //땅 관련
+            RaycastHit2D hit = Physics2D.Raycast( transform.position, mousePartical.transform.position - transform.position, maxDashDistance, groundLayerMask);
+
+            if( hit )
+            {
+                StartCoroutine( Dash( ( Vector3.Distance( transform.position, hit.point ) ) - 1f ) );
+            }
+            else
+            {
+                StartCoroutine( Dash( maxDashDistance ) );
+            }
+
+        }  
+    }
+
+
 
     void Move()
     {
@@ -70,31 +99,7 @@ public class PlayerMove : MonoBehaviour
 
         }
 
-        //슬로우 모션 후
-        if( ( Input.GetKeyUp( KeyCode.LeftShift ) && nextSlowMotionTime <= Time.time ) | nowSlowMotionGauge <= 0)
-        {
-
-            nextSlowMotionTime = Time.time + slowMotionRate;
-            nowSlowMotionGauge = maxSlowMotionGauge;
-            attackRange.SetActive(false);
-            mousePartical.SetActive(false);
-
-            //판정(벽뚫방지)
-            int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
-            RaycastHit2D hit = Physics2D.Raycast( transform.position, mousePartical.transform.position - transform.position, maxDashDistance, groundLayerMask);
-
-            if( hit )
-            {
-                Debug.Log("아니, 내가 고자라니!! 이게 무슨 소리야!? 에잇, 고자라니!! 내가, 내가 고자라니!!!");
-                StartCoroutine( Dash( ( Vector3.Distance( transform.position, hit.point ) ) - 1f ) );
-            }
-            else
-            {
-                Debug.Log("팀의 체력을 책임진다. 인간 성기사, 뿌뿌뿡!");
-                StartCoroutine( Dash( maxDashDistance ) );
-            }
-
-        }   
+         
 
         //점프
         if( Input.GetKeyDown( KeyCode.W ) && jumpPrevention )
@@ -106,6 +111,8 @@ public class PlayerMove : MonoBehaviour
         transform.position = new Vector2( transform.position.x + moveX, transform.position.y + moveY );
 
     }
+
+
 
     void Animation()
     {
@@ -126,6 +133,7 @@ public class PlayerMove : MonoBehaviour
         }
 
     }
+
 
 
     void SlowMotion()
@@ -156,44 +164,51 @@ public class PlayerMove : MonoBehaviour
         //시간 조절
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
-        
 
     }
+
+
 
     IEnumerator Dash( float dashDistance )
     {
 
+        DashAttackJudgment.SetActive(true);
+        DashAttackJudgment.transform.rotation = attackRange.transform.rotation;
+
         rb.drag = ( 35f * dashDistance ) / 8f;
         cldr.isTrigger = true;
-        dashAttact = true;
+        dashing = true;
 
         //벽뚫방지
         if( jumpPrevention && dashDistance != maxDashDistance )
         {
 
-            Debug.Log(attackRange.transform.eulerAngles.z);
             if( 180f <= attackRange.transform.eulerAngles.z && attackRange.transform.eulerAngles.z < 360f )
             {
-                Debug.Log("고구마 호박 몰라? 호박맛 나는 노오란 고구마");
                 rb.velocity = Vector2.right * 20f * dashDistance;
             }
             else
             {
                 rb.velocity = Vector2.left * 20f * dashDistance;
-                Debug.Log("마이너한 버그는 있을 수 있다는점");
             }
-            
+    
         }
         else
         {
+
             rb.velocity = ( mousePartical.transform.position - transform.position ).normalized * 35f * dashDistance;
+
         }
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.05f);
+
+        DashAttackJudgment.SetActive(false);
+
+        yield return new WaitForSeconds(0.10f);
 
         rb.drag = 1f;
         cldr.isTrigger = false;
-        dashAttact = false;
+        dashing = false;
 
     }
 

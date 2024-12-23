@@ -18,7 +18,7 @@ public class CameraMove : MonoBehaviour
     void LateUpdate()
     {
 
-        if( pm.dashAttact )
+        if( pm.dashing )
         {
             transform.position = Vector3.Lerp(transform.position, target.transform.position, 100f * Time.deltaTime);
         }

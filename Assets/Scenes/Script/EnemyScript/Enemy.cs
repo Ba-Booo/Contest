@@ -32,6 +32,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         EnemyMove();
+
+        if(nowHp <= 0)
+        {
+            Destroy(this.gameObject, 2);
+        }
+
     }
 
     void EnemyMove()
@@ -50,4 +56,16 @@ public class Enemy : MonoBehaviour
         }
 
     }
+
+    void OnTriggerEnter2D( Collider2D collision )
+    {
+        
+        if(collision.gameObject.tag == "PlayerAttack")
+        {
+            Debug.Log("내가 고자라니");
+            Destroy(this.gameObject);
+        }
+
+    }
+
 }
