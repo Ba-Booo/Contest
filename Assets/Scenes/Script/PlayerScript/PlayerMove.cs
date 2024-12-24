@@ -19,22 +19,34 @@ public class PlayerMove : MonoBehaviour
     float jumpPower;            
 
     float nowSlowMotionGauge;                   //슬로우모션
-    public float maxSlowMotionGauge;
+    [SerializeField]
+    float maxSlowMotionGauge;
     public float nextSlowMotionTime;
-    public float slowMotionRate;
+    [SerializeField]
+    float slowMotionRate;
     bool slowMotionLimit = true;
 
     float mouseAngle;                           //대쉬 방향
-    public GameObject attackRange;
-    public GameObject mousePartical;
+    [SerializeField]
+    GameObject attackRange;
+    [SerializeField]
+    GameObject mousePartical;
 
     [SerializeField]                            //대쉬
     float maxDashDistance;
     public bool dashing;
     public GameObject DashAttackJudgment;
+    public AttackedRange attackedRange;
+
+    [SerializeField]                            //궁
+    int maxUltimateAttackGauge = 0;
+    public int nowUltimateAttackGauge;
+    [SerializeField]  
+    GameObject ultimateMousePartical;
 
     Rigidbody2D rb;
     CapsuleCollider2D cldr;
+
 
     void Start()
     {
@@ -68,6 +80,17 @@ public class PlayerMove : MonoBehaviour
             slowMotionLimit = true;
         }
 
+        //궁
+        if( nowUltimateAttackGauge >= maxUltimateAttackGauge && Input.GetKey( KeyCode.Q ) )
+        {
+            UltimateAttack();
+        }
+        else if( nowUltimateAttackGauge >= maxUltimateAttackGauge && Input.GetKeyUp( KeyCode.Q ) )
+        {
+            ultimateMousePartical.SetActive(false);
+            nowUltimateAttackGauge = 0;
+        }
+
     }
 
 
@@ -92,8 +115,6 @@ public class PlayerMove : MonoBehaviour
             Time.fixedDeltaTime = 0.02f;
 
         }
-
-         
 
         //점프
         if( Input.GetKeyDown( KeyCode.W ) && jumpPrevention )
@@ -164,6 +185,7 @@ public class PlayerMove : MonoBehaviour
 
     void AfterSlowMotion()
     {
+
         slowMotionLimit = false;
         nextSlowMotionTime = Time.time + slowMotionRate;
         nowSlowMotionGauge = maxSlowMotionGauge;
@@ -188,9 +210,13 @@ public class PlayerMove : MonoBehaviour
     IEnumerator Dash( float dashDistance )
     {
 
-        DashAttackJudgment.SetActive(true);
-        DashAttackJudgment.transform.position = transform.position;
-        DashAttackJudgment.transform.rotation = attackRange.transform.rotation;
+        if( attackedRange.dashAttackActivator )
+        {
+            DashAttackJudgment.SetActive(true);
+            DashAttackJudgment.transform.position = transform.position;
+            DashAttackJudgment.transform.rotation = attackRange.transform.rotation;
+            attackedRange.dashAttackActivator = false;
+        }
 
         rb.drag = ( 35f * dashDistance ) / 8f;
         cldr.isTrigger = true;
@@ -226,6 +252,24 @@ public class PlayerMove : MonoBehaviour
         dashing = false;
 
     }
+
+
+
+    void UltimateAttack()
+    {
+
+        //시간 조절
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+
+        
+        ultimateMousePartical.SetActive(true);
+
+    }
+
+
+
+
 
     void OnCollisionStay2D( Collision2D collision )
     {

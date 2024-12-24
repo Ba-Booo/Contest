@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     GameObject bloodParticle;
     [SerializeField]
-    PlayerMove eliminateReLoad;
+    PlayerMove playerStatus;
 
     // 거리
     float distance;
@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        eliminateReLoad = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
+        playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
     }
 
     void Update()
@@ -54,6 +54,7 @@ public class Enemy : MonoBehaviour
 
         distance = Vector2.Distance( target.position, transform.position );
 
+        //ai
         if( distance <= viewingRange && distance >= attackRange )
         {
             transform.position = Vector2.MoveTowards( transform.position, target.position, enemySpeed * Time.deltaTime );
@@ -71,11 +72,17 @@ public class Enemy : MonoBehaviour
      
         if(collision.gameObject.tag == "PlayerAttack")
         {
-            Debug.Log("내가 고자라니");
+
+            //피 파티클
             float bloodAngle =  Mathf.Atan2( dashJudgment.position.y - transform.position.y, dashJudgment.position.x - transform.position.x ) * Mathf.Rad2Deg;
             Instantiate( bloodParticle, transform.position, Quaternion.AngleAxis( bloodAngle - 90, Vector3.forward ) );
-            eliminateReLoad.nextSlowMotionTime = Time.time;
+
+            //플레이어 궁게이지, 쿨타임
+            playerStatus.nextSlowMotionTime = Time.time;
+            playerStatus.nowUltimateAttackGauge += 1;
+
             Destroy(this.gameObject);
+
         }
 
     }
