@@ -6,31 +6,42 @@ public class Enemy : MonoBehaviour
 {
 
     // 체력
-    public int enemyMaxHp;
-    public int enemyNowHp;
+    [SerializeField]
+    int enemyMaxHp;
+    [SerializeField]
+    int enemyNowHp;
 
     //쥬금
-    public Transform dashJudgment;
-    public GameObject bloodParticle;
+    [SerializeField]
+    Transform dashJudgment;
+    [SerializeField]
+    GameObject bloodParticle;
+    [SerializeField]
+    PlayerMove eliminateReLoad;
 
     // 거리
     float distance;
-    public float viewingRange;
-    public float attackRange;
-    public Transform target;
+    [SerializeField]
+    float viewingRange;
+    [SerializeField]
+    float attackRange;
+    [SerializeField]
+    Transform target;
 
     // 속도
-    public float enemySpeed;
+    [SerializeField]
+    float enemySpeed;
 
     // 공격
-    public float attackRate;
+    [SerializeField]
+    float attackRate;
     float nextAttectTime;
     public GameObject bullat;
     
 
     void Start()
     {
-
+        eliminateReLoad = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
     }
 
     void Update()
@@ -63,6 +74,7 @@ public class Enemy : MonoBehaviour
             Debug.Log("내가 고자라니");
             float bloodAngle =  Mathf.Atan2( dashJudgment.position.y - transform.position.y, dashJudgment.position.x - transform.position.x ) * Mathf.Rad2Deg;
             Instantiate( bloodParticle, transform.position, Quaternion.AngleAxis( bloodAngle - 90, Vector3.forward ) );
+            eliminateReLoad.nextSlowMotionTime = Time.time;
             Destroy(this.gameObject);
         }
 

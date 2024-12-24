@@ -15,12 +15,14 @@ public class PlayerMove : MonoBehaviour
     SpriteRenderer sr;                          //에니메이션
 
     bool jumpPrevention = false;                //점프
-    public float jumpPower;            
+    [SerializeField]
+    float jumpPower;            
 
     float nowSlowMotionGauge;                   //슬로우모션
     public float maxSlowMotionGauge;
-    float nextSlowMotionTime;
+    public float nextSlowMotionTime;
     public float slowMotionRate;
+    bool slowMotionLimit = true;
 
     float mouseAngle;                           //대쉬 방향
     public GameObject attackRange;
@@ -52,33 +54,20 @@ public class PlayerMove : MonoBehaviour
         Move();
         Animation();
 
-    }
-
-    void LateUpdate()
-    {
         //슬로우 모션 후
-        if( ( Input.GetKeyUp( KeyCode.LeftShift ) && nextSlowMotionTime <= Time.time ) | nowSlowMotionGauge <= 0)
+        if( ( ( Input.GetKeyUp( KeyCode.LeftShift ) && nextSlowMotionTime <= Time.time ) | nowSlowMotionGauge <= 0 ) && slowMotionLimit )
         {
 
-            nextSlowMotionTime = Time.time + slowMotionRate;
-            nowSlowMotionGauge = maxSlowMotionGauge;
-            attackRange.SetActive(false);
-            mousePartical.SetActive(false);
-
-            //판정(벽뚫방지)
-            int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");                 //땅 관련
-            RaycastHit2D hit = Physics2D.Raycast( transform.position, mousePartical.transform.position - transform.position, maxDashDistance, groundLayerMask);
-
-            if( hit )
-            {
-                StartCoroutine( Dash( ( Vector3.Distance( transform.position, hit.point ) ) - 1f ) );
-            }
-            else
-            {
-                StartCoroutine( Dash( maxDashDistance ) );
-            }
+            AfterSlowMotion();
 
         }  
+
+        //대쉬 겹침 방지
+        if( !Input.GetKey( KeyCode.LeftShift ) )
+        {
+            slowMotionLimit = true;
+        }
+
     }
 
 
@@ -87,9 +76,11 @@ public class PlayerMove : MonoBehaviour
     {
 
         //움직임
-        if( Input.GetKey( KeyCode.LeftShift ) &&  nowSlowMotionGauge >= 0 && nextSlowMotionTime <= Time.time )      //슬로우모션
+        if( Input.GetKey( KeyCode.LeftShift ) &&  nowSlowMotionGauge >= 0 && nextSlowMotionTime <= Time.time && slowMotionLimit )      //슬로우모션
         {
-            SlowMotion();
+
+            SlowMotion();  
+
         }
         else
         {
@@ -168,6 +159,30 @@ public class PlayerMove : MonoBehaviour
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
 
+    }
+
+
+    void AfterSlowMotion()
+    {
+        slowMotionLimit = false;
+        nextSlowMotionTime = Time.time + slowMotionRate;
+        nowSlowMotionGauge = maxSlowMotionGauge;
+        attackRange.SetActive(false);
+        mousePartical.SetActive(false);
+
+        //판정(벽뚫방지)
+        int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");                 //땅 관련
+        RaycastHit2D hit = Physics2D.Raycast( transform.position, mousePartical.transform.position - transform.position, maxDashDistance, groundLayerMask);
+
+        if( hit )
+        {
+            StartCoroutine( Dash( ( Vector3.Distance( transform.position, hit.point ) ) - 1f ) );
+        }
+        else
+        {
+            StartCoroutine( Dash( maxDashDistance ) );
+        }
+        
     }
 
     IEnumerator Dash( float dashDistance )

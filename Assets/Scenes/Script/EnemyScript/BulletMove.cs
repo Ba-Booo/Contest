@@ -5,7 +5,8 @@ using UnityEngine;
 public class BulletMove : MonoBehaviour
 {
     //윰직임
-    public float bullatSpeed;
+    [SerializeField]
+    float bullatSpeed;
     GameObject target;
     Rigidbody2D bullatRB;
 
