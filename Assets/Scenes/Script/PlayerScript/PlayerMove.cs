@@ -7,12 +7,14 @@ public class PlayerMove : MonoBehaviour
 
     float moveX, moveY;
 
-    public float playerSpeed;                   //움직임
-    public float slowMotionSpeed;
+    [SerializeField]
+    float playerSpeed;                          //움직임
+    [SerializeField]
+    float slowMotionSpeed;
 
     SpriteRenderer sr;                          //에니메이션
 
-    public bool jumpPrevention = false;         //점프
+    bool jumpPrevention = false;                //점프
     public float jumpPower;            
 
     float nowSlowMotionGauge;                   //슬로우모션
@@ -24,7 +26,8 @@ public class PlayerMove : MonoBehaviour
     public GameObject attackRange;
     public GameObject mousePartical;
 
-    public float maxDashDistance;               //대쉬
+    [SerializeField]                            //대쉬
+    float maxDashDistance;
     public bool dashing;
     public GameObject DashAttackJudgment;
 
@@ -154,7 +157,7 @@ public class PlayerMove : MonoBehaviour
         //느려짐 시전시간
         if( Input.GetAxisRaw("Horizontal") != 0 | Input.GetAxisRaw("Vertical") != 0 )
         {
-            nowSlowMotionGauge -= Time.deltaTime * 30;
+            nowSlowMotionGauge -= Time.deltaTime * 50;
         }
         else
         {
@@ -171,6 +174,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         DashAttackJudgment.SetActive(true);
+        DashAttackJudgment.transform.position = transform.position;
         DashAttackJudgment.transform.rotation = attackRange.transform.rotation;
 
         rb.drag = ( 35f * dashDistance ) / 8f;
@@ -198,12 +202,9 @@ public class PlayerMove : MonoBehaviour
 
         }
 
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.15f);
 
         DashAttackJudgment.SetActive(false);
-
-
-        yield return new WaitForSeconds(0.10f);
 
         rb.drag = 1f;
         cldr.isTrigger = false;

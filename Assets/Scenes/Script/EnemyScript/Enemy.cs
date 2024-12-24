@@ -6,10 +6,11 @@ public class Enemy : MonoBehaviour
 {
 
     // 체력
-    public int maxHp;
-    public int nowHp;
+    public int enemyMaxHp;
+    public int enemyNowHp;
 
     //쥬금
+    public Transform dashJudgment;
     public GameObject bloodParticle;
 
     // 거리
@@ -35,7 +36,6 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         EnemyMove();
-
     }
 
     void EnemyMove()
@@ -57,14 +57,12 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D( Collider2D collision )
     {
-
-        Debug.Log(transform.eulerAngles.x);
      
         if(collision.gameObject.tag == "PlayerAttack")
         {
             Debug.Log("내가 고자라니");
-            float bloodAngle =  Mathf.Atan2( target.position.y - transform.position.y, target.position.x - transform.position.x ) * Mathf.Rad2Deg;
-            Instantiate( bloodParticle, transform.position, Quaternion.AngleAxis( bloodAngle + 90, Vector3.forward ) );
+            float bloodAngle =  Mathf.Atan2( dashJudgment.position.y - transform.position.y, dashJudgment.position.x - transform.position.x ) * Mathf.Rad2Deg;
+            Instantiate( bloodParticle, transform.position, Quaternion.AngleAxis( bloodAngle - 90, Vector3.forward ) );
             Destroy(this.gameObject);
         }
 
