@@ -7,6 +7,7 @@ public class PlayerMove : MonoBehaviour
 
     float moveX, moveY;
 
+    
     [SerializeField]
     float playerSpeed;                          //움직임
     [SerializeField]
@@ -25,6 +26,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     float slowMotionRate;
     bool slowMotionLimit = true;
+    bool doingSlowMotion;
 
     float mouseAngle;                           //대쉬 방향
     [SerializeField]
@@ -43,6 +45,7 @@ public class PlayerMove : MonoBehaviour
     public int nowUltimateAttackGauge;
     [SerializeField]  
     GameObject ultimateMousePartical;
+    public bool doingUltimateAttack;
 
     Rigidbody2D rb;
     CapsuleCollider2D cldr;
@@ -81,14 +84,17 @@ public class PlayerMove : MonoBehaviour
         }
 
         //궁
-        if( nowUltimateAttackGauge >= maxUltimateAttackGauge && Input.GetKey( KeyCode.Q ) )
+        if( nowUltimateAttackGauge >= maxUltimateAttackGauge && Input.GetKey( KeyCode.Q ) && !doingSlowMotion )
         {
             UltimateAttack();
         }
-        else if( nowUltimateAttackGauge >= maxUltimateAttackGauge && Input.GetKeyUp( KeyCode.Q ) )
+        else if( nowUltimateAttackGauge >= maxUltimateAttackGauge && Input.GetKeyUp( KeyCode.Q ) && !doingSlowMotion )
         {
+            
             ultimateMousePartical.SetActive(false);
+            doingUltimateAttack = false;
             nowUltimateAttackGauge = 0;
+
         }
 
     }
@@ -99,7 +105,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         //움직임
-        if( Input.GetKey( KeyCode.LeftShift ) &&  nowSlowMotionGauge >= 0 && nextSlowMotionTime <= Time.time && slowMotionLimit )      //슬로우모션
+        if( Input.GetKey( KeyCode.LeftShift ) &&  nowSlowMotionGauge >= 0 && nextSlowMotionTime <= Time.time && slowMotionLimit && !doingUltimateAttack )      //슬로우모션
         {
 
             SlowMotion();  
@@ -180,7 +186,10 @@ public class PlayerMove : MonoBehaviour
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
 
+        doingSlowMotion = true;
+
     }
+
 
 
     void AfterSlowMotion()
@@ -206,6 +215,8 @@ public class PlayerMove : MonoBehaviour
         }
         
     }
+
+
 
     IEnumerator Dash( float dashDistance )
     {
@@ -249,7 +260,7 @@ public class PlayerMove : MonoBehaviour
 
         rb.drag = 1f;
         cldr.isTrigger = false;
-        dashing = false;
+        doingSlowMotion = false;
 
     }
 
@@ -258,8 +269,10 @@ public class PlayerMove : MonoBehaviour
     void UltimateAttack()
     {
 
+        doingUltimateAttack = true;
+
         //시간 조절
-        Time.timeScale = 0.1f;
+        Time.timeScale = 0.05f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
 
         

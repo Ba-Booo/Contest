@@ -360,7 +360,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 25
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -654,13 +654,15 @@ GameObject:
   m_Component:
   - component: {fileID: 1039113077}
   - component: {fileID: 1039113076}
+  - component: {fileID: 1039113078}
+  - component: {fileID: 1039113079}
   m_Layer: 0
   m_Name: UltimateAttackMouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!96 &1039113076
 TrailRenderer:
   serializedVersion: 3
@@ -713,13 +715,31 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
+        value: 0.90284973
+        inSlope: -2.3772836
+        outSlope: -2.3772836
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.38480002
+      - serializedVersion: 3
+        time: 0.037461378
+        value: 0.14876157
+        inSlope: -6.5548253
+        outSlope: -6.5548253
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.3114105
+        outWeight: 0.35179803
+      - serializedVersion: 3
+        time: 0.07444794
+        value: 0.06865286
+        inSlope: -0.08554562
+        outSlope: -0.08554562
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.37138084
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -780,6 +800,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1039113078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039113075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d71c986a014548dfb31543ff7458270, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &1039113079
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039113075}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1066692493
 GameObject:
   m_ObjectHideFlags: 0
@@ -5709,6 +5776,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5482888661898674439, guid: 2225e453beba147f7bb6714243e0afb6, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5661607603158471263, guid: 2225e453beba147f7bb6714243e0afb6, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -6235,6 +6306,10 @@ PrefabInstance:
     - target: {fileID: 4030801431017967271, guid: 2225e453beba147f7bb6714243e0afb6, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482888661898674439, guid: 2225e453beba147f7bb6714243e0afb6, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5661607603158471263, guid: 2225e453beba147f7bb6714243e0afb6, type: 3}
       propertyPath: m_RootOrder

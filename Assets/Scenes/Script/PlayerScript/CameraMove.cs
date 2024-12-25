@@ -5,10 +5,12 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
 
-    public GameObject target;
+    [SerializeField]
+    GameObject target;
     PlayerMove pm;
 
-    public float cameraMoveSpeed;
+    [SerializeField]
+    float cameraMoveSpeed;
 
     void Start()
     {

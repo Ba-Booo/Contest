@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     GameObject bloodParticle;
     [SerializeField]
     PlayerMove playerStatus;
+    bool ultimateDeath;
 
     // 거리
     float distance;
@@ -47,6 +48,23 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         EnemyMove();
+
+        //궁 쥬금
+        if( !playerStatus.doingUltimateAttack && ultimateDeath )
+        {
+            //피 파티클
+            Instantiate( bloodParticle, transform.position, Quaternion.AngleAxis( Random.Range( 0f, 360f ), Vector3.forward ) );
+
+            //플레이어 쿨타임
+            playerStatus.nextSlowMotionTime = Time.time;
+
+            Destroy(this.gameObject);
+
+        }
+
+
+
+
     }
 
     void EnemyMove()
@@ -70,7 +88,7 @@ public class Enemy : MonoBehaviour
     void OnTriggerEnter2D( Collider2D collision )
     {
      
-        if(collision.gameObject.tag == "PlayerAttack")
+        if(collision.gameObject.name == "DashAttackJudgment")
         {
 
             //피 파티클
@@ -82,6 +100,13 @@ public class Enemy : MonoBehaviour
             playerStatus.nowUltimateAttackGauge += 1;
 
             Destroy(this.gameObject);
+
+        }
+
+        if(collision.gameObject.name == "UltimateAttackMouse")
+        {
+
+            ultimateDeath = true;
 
         }
 
