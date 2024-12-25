@@ -655,6 +655,7 @@ GameObject:
   - component: {fileID: 1039113077}
   - component: {fileID: 1039113076}
   - component: {fileID: 1039113078}
+  - component: {fileID: 1039113080}
   - component: {fileID: 1039113079}
   m_Layer: 0
   m_Name: UltimateAttackMouse
@@ -812,14 +813,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d71c986a014548dfb31543ff7458270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &1039113079
-CircleCollider2D:
+--- !u!114 &1039113079
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1039113075}
-  m_Enabled: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b895706f63844db9b28bdde8ced89d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!68 &1039113080
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039113075}
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -845,8 +858,14 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -15.495747, y: -3.4611213}
+  - {x: 0.5, y: -3.4611213}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &1066692493
 GameObject:
   m_ObjectHideFlags: 0
@@ -6396,6 +6415,10 @@ PrefabInstance:
       propertyPath: dashing
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5701178857268317175, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: cameraMove
+      value: 
+      objectReference: {fileID: 519420033}
     - target: {fileID: 5701178857268317175, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
       propertyPath: mousePartical
       value: 

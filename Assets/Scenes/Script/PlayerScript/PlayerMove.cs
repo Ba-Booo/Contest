@@ -49,6 +49,7 @@ public class PlayerMove : MonoBehaviour
 
     Rigidbody2D rb;
     CapsuleCollider2D cldr;
+    [SerializeField] CameraMove cameraMove;
 
 
     void Start()
@@ -94,6 +95,7 @@ public class PlayerMove : MonoBehaviour
             ultimateMousePartical.SetActive(false);
             doingUltimateAttack = false;
             nowUltimateAttackGauge = 0;
+            StartCoroutine( cameraMove.CameraShake( 1.5f, 0.1f ) );
 
         }
 
@@ -226,7 +228,6 @@ public class PlayerMove : MonoBehaviour
             DashAttackJudgment.SetActive(true);
             DashAttackJudgment.transform.position = transform.position;
             DashAttackJudgment.transform.rotation = attackRange.transform.rotation;
-            attackedRange.dashAttackActivator = false;
         }
 
         rb.drag = ( 35f * dashDistance ) / 8f;
@@ -256,7 +257,17 @@ public class PlayerMove : MonoBehaviour
 
         yield return new WaitForSeconds(0.15f);
 
+        if( attackedRange.dashAttackActivator )
+        {
+
+            DashAttackJudgment.SetActive(false);
+            attackedRange.dashAttackActivator = false;
+
+            StartCoroutine( cameraMove.CameraShake( 1.5f, 0.1f ) );
+
+        }
         DashAttackJudgment.SetActive(false);
+
 
         rb.drag = 1f;
         cldr.isTrigger = false;
@@ -274,12 +285,10 @@ public class PlayerMove : MonoBehaviour
         //시간 조절
         Time.timeScale = 0.05f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
-
         
         ultimateMousePartical.SetActive(true);
 
     }
-
 
 
 

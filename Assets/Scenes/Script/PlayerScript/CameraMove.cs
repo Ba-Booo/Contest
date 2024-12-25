@@ -12,6 +12,8 @@ public class CameraMove : MonoBehaviour
     [SerializeField]
     float cameraMoveSpeed;
 
+    bool cameraShaking;
+
     void Start()
     {
         pm = target.GetComponent<PlayerMove>();
@@ -20,7 +22,9 @@ public class CameraMove : MonoBehaviour
     void LateUpdate()
     {
 
-        if( pm.dashing )
+        
+
+        if( pm.dashing && !cameraShaking )
         {
             transform.position = Vector3.Lerp(transform.position, target.transform.position, 100f * Time.deltaTime);
         }
@@ -30,6 +34,26 @@ public class CameraMove : MonoBehaviour
         }
 
         transform.position = new Vector3(transform.position.x, transform.position.y, -30);
+
+    }
+
+    public IEnumerator CameraShake( float power, float shakeTime )
+    {
+
+
+        while( shakeTime >= 0f )
+        {
+
+            transform.position = transform.position + ( Random.insideUnitSphere * power );
+            transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
+            
+            shakeTime -= Time.deltaTime;
+
+            yield return null;
+
+        }
+
+        cameraShaking = false;
 
     }
 
