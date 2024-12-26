@@ -22,8 +22,6 @@ public class CameraMove : MonoBehaviour
     void LateUpdate()
     {
 
-        
-
         if( pm.dashing && !cameraShaking )
         {
             transform.position = Vector3.Lerp(transform.position, target.transform.position, 100f * Time.deltaTime);
@@ -39,6 +37,8 @@ public class CameraMove : MonoBehaviour
 
     public IEnumerator CameraShake( float power, float shakeTime )
     {
+
+        cameraShaking = true;
 
 
         while( shakeTime >= 0f )

@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerMove : MonoBehaviour
 {
 
     float moveX, moveY;
 
     
-    [SerializeField]
-    float playerSpeed;                          //움직임
-    [SerializeField]
-    float slowMotionSpeed;
+    [SerializeField] float playerSpeed;         //움직임     
+    [SerializeField] float slowMotionSpeed;
+    
 
     SpriteRenderer sr;                          //에니메이션
 
@@ -46,6 +46,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]  
     GameObject ultimateMousePartical;
     public bool doingUltimateAttack;
+    public Vector3 positionUltimate;
+
+    [SerializeField] UnityEngine.Rendering.Universal.Light2D mainLight;
 
     Rigidbody2D rb;
     CapsuleCollider2D cldr;
@@ -60,7 +63,7 @@ public class PlayerMove : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         cldr = GetComponent<CapsuleCollider2D>();
-       
+
     }
 
     void Update()
@@ -68,6 +71,7 @@ public class PlayerMove : MonoBehaviour
         
         Debug.DrawRay(transform.position, mousePartical.transform.position - transform.position, Color.red);
         Move();
+        LightEffect();
         Animation();
 
         //슬로우 모션 후
@@ -95,7 +99,9 @@ public class PlayerMove : MonoBehaviour
             ultimateMousePartical.SetActive(false);
             doingUltimateAttack = false;
             nowUltimateAttackGauge = 0;
-            StartCoroutine( cameraMove.CameraShake( 1.5f, 0.1f ) );
+            transform.position = positionUltimate;
+            StartCoroutine( Dash( 2 ) );
+            StartCoroutine( cameraMove.CameraShake( 3f, 0.2f ) );
 
         }
 
@@ -154,6 +160,23 @@ public class PlayerMove : MonoBehaviour
                 break; 
 
         }
+
+    }
+
+
+
+    void LightEffect()
+    {
+
+        if( doingSlowMotion | doingUltimateAttack )
+        {
+            mainLight.intensity = Mathf.Lerp( mainLight.intensity, 0.5f, 70f * Time.deltaTime );
+        }
+        else
+        {
+            mainLight.intensity = 1f;
+        }
+
 
     }
 
@@ -268,9 +291,9 @@ public class PlayerMove : MonoBehaviour
         }
         DashAttackJudgment.SetActive(false);
 
-
         rb.drag = 1f;
         cldr.isTrigger = false;
+        dashing = false;
         doingSlowMotion = false;
 
     }

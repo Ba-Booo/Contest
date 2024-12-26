@@ -6,32 +6,24 @@ public class Enemy : MonoBehaviour
 {
 
     // 체력
-    [SerializeField]
-    int enemyMaxHp;
-    [SerializeField]
-    int enemyNowHp;
+    [SerializeField] int enemyMaxHp;
+    [SerializeField] int enemyNowHp;
 
     //쥬금
-    [SerializeField]
-    Transform dashJudgment;
-    [SerializeField]
-    GameObject bloodParticle;
-    [SerializeField]
-    PlayerMove playerStatus;
+    [SerializeField] Transform dashJudgment;
+    [SerializeField] GameObject bloodParticle;
+    [SerializeField] PlayerMove playerStatus;
     bool ultimateDeath;
+    bool deadPosition;
 
     // 거리
     float distance;
-    [SerializeField]
-    float viewingRange;
-    [SerializeField]
-    float attackRange;
-    [SerializeField]
-    Transform target;
+    [SerializeField] float viewingRange;
+    [SerializeField] float attackRange;
+    [SerializeField] Transform target;
 
     // 속도
-    [SerializeField]
-    float enemySpeed;
+    [SerializeField] float enemySpeed;
 
     // 공격
     [SerializeField]
@@ -61,8 +53,6 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
 
         }
-
-
 
 
     }
@@ -107,6 +97,14 @@ public class Enemy : MonoBehaviour
         {
 
             ultimateDeath = true;
+
+            if( !deadPosition )
+            {
+
+                playerStatus.positionUltimate = transform.position;
+                deadPosition = true;
+
+            }
 
         }
 
