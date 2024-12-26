@@ -999,10 +999,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraMove: {fileID: 519420033}
-  playerMove: {fileID: 1379567355}
   shakePower: 1
   shakeTime: 0.1
-  contactEnemy: 0
 --- !u!4 &958268523 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5661607603158471263, guid: 2225e453beba147f7bb6714243e0afb6, type: 3}
@@ -1062,7 +1060,7 @@ GameObject:
   - component: {fileID: 1039113081}
   m_Layer: 0
   m_Name: UltimateAttackMouse
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1278,13 +1276,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1039113075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5dda5490e4cc45f5888458686abcce1, type: 3}
+  m_Script: {fileID: 11500000, guid: e4933ccfd6ea74dff866232690c1768a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMove: {fileID: 519420033}
-  playerMove: {fileID: 1379567355}
-  shakePower: 0
-  shakeTime: 0
+  receivedValue: {fileID: 1379567355}
+  minimumUltimateTime: 0
   contactEnemy: 0
 --- !u!1 &1066692493
 GameObject:
@@ -6988,6 +6984,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 10471187775436048, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 10471187775436048, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: m_Color.g
+      value: 0.85340756
+      objectReference: {fileID: 0}
+    - target: {fileID: 10471187775436048, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: m_Color.r
+      value: 0.514151
+      objectReference: {fileID: 0}
+    - target: {fileID: 375006822768093546, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 375006822768093546, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: m_TagString
+      value: Attacked
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730625640415060339, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305319447198269064, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3444860515501614973, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
       propertyPath: hpSlider
       value: 
@@ -7039,7 +7063,7 @@ PrefabInstance:
     - target: {fileID: 5701178857268317175, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
       propertyPath: attackJudgment
       value: 
-      objectReference: {fileID: 1039113081}
+      objectReference: {fileID: 0}
     - target: {fileID: 5701178857268317175, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
       propertyPath: maxDashDistance
       value: 10
@@ -7048,6 +7072,10 @@ PrefabInstance:
       propertyPath: slowMotionSpeed
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 5701178857268317175, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: ultimateJudgment
+      value: 
+      objectReference: {fileID: 1039113081}
     - target: {fileID: 5701178857268317175, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
       propertyPath: DashAttackJudgment
       value: 

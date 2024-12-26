@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3519878059322385455}
   - component: {fileID: 2667319057607411867}
   - component: {fileID: 8133530904876716576}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: attackedRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -421,7 +421,7 @@ MonoBehaviour:
   ultimateMousePartical: {fileID: 0}
   doingUltimateAttack: 0
   positionUltimate: {x: 0, y: 0, z: 0}
-  attackJudgment: {fileID: 0}
+  ultimateJudgment: {fileID: 0}
   mainLight: {fileID: 0}
   myLight: {fileID: 10471187775436048}
   cameraMove: {fileID: 0}
@@ -440,6 +440,7 @@ MonoBehaviour:
   playerMaxHP: 3
   playerNowHP: 3
   hpSlider: {fileID: 0}
+  ultimateSlider: {fileID: 0}
 --- !u!70 &5185847580469902208
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

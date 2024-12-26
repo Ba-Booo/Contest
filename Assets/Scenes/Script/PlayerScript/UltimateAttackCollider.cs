@@ -18,13 +18,16 @@ public class UltimateAttackCollider : MonoBehaviour
 
     void Update()
     {
+
         List<Vector2> points = new List<Vector2>();
+
         for( int position = 0; position < trail.positionCount; position ++ )
         {
             points.Add( trail.GetPosition( position ) - transform.position );
         }
         
         collider.SetPoints( points );
+        
     }
 
 }

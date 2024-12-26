@@ -12,7 +12,7 @@ public class BulletMove : MonoBehaviour
 
     //딜
     PlayerUI playerHP;
-    PlayerMove playerDashing; 
+    PlayerMove playerState; 
 
     void Start()
     {     
@@ -20,7 +20,7 @@ public class BulletMove : MonoBehaviour
         bullatRB = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectWithTag("Player");
         playerHP = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUI>();
-        playerDashing = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
+        playerState = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
 
         Vector2 moveDir = (target.transform.position - transform.position).normalized * bullatSpeed;
         bullatRB.velocity = moveDir;
@@ -34,12 +34,18 @@ public class BulletMove : MonoBehaviour
     {
 
         //딜
-        if( collision.gameObject.tag == "Player" && !playerDashing.dashing )
+        if( collision.gameObject.tag == "Player" && !playerState.dashing && playerState.doingSlowMotion )
         {
             
             playerHP.playerNowHP -= 1;
-            Destroy( this.gameObject );
+            playerState.wasAttacked = true;
+            playerState.nowSlowMotionGauge = 0;
+            Destroy( this.gameObject);
 
+        }
+        else if( collision.gameObject.tag == "Player" && !playerState.dashing  )
+        {
+            playerState.wasAttacked = true;
         }
 
         if( collision.gameObject.tag == "Ground" )
