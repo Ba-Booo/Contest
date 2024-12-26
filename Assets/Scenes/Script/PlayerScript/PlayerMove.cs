@@ -282,7 +282,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
 
-            rb.velocity = ( mousePartical.transform.position - transform.position ).normalized * 35f * dashDistance;
+            rb.velocity = new Vector2( mousePartical.transform.position.x - transform.position.x, mousePartical.transform.position.y - transform.position.y ).normalized * 35f * dashDistance;
 
         }
 

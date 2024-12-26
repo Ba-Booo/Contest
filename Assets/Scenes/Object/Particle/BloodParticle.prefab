@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1335893788064350316}
   - component: {fileID: 1449321535793551898}
   - component: {fileID: 128066176100450980}
-  - component: {fileID: 8732007617490318773}
+  - component: {fileID: 5008508859773108392}
   m_Layer: 0
   m_Name: BloodParticle
   m_TagString: Untagged
@@ -4887,7 +4887,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &8732007617490318773
+--- !u!114 &5008508859773108392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

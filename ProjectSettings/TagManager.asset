@@ -7,9 +7,6 @@ TagManager:
   - Ground
   - Enemy
   - EnemyAttack
-  - PlayerAttack
-  - OriginalLight
-  - EnemyLight
   layers:
   - Default
   - TransparentFX
