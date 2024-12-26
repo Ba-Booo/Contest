@@ -40,13 +40,12 @@ public class PlayerMove : MonoBehaviour
     public GameObject DashAttackJudgment;
     public AttackedRange attackedRange;
 
-    [SerializeField]                            //궁
-    int maxUltimateAttackGauge = 0;
+    [SerializeField] int maxUltimateAttackGauge = 0;                    //궁
     public int nowUltimateAttackGauge;
-    [SerializeField]  
-    GameObject ultimateMousePartical;
+    [SerializeField] GameObject ultimateMousePartical;
     public bool doingUltimateAttack;
     public Vector3 positionUltimate;
+    [SerializeField] AttackJudgment attackJudgment;
 
     [SerializeField] UnityEngine.Rendering.Universal.Light2D mainLight;
 
@@ -100,8 +99,11 @@ public class PlayerMove : MonoBehaviour
             doingUltimateAttack = false;
             nowUltimateAttackGauge = 0;
             transform.position = positionUltimate;
-            StartCoroutine( Dash( 2 ) );
-            StartCoroutine( cameraMove.CameraShake( 3f, 0.2f ) );
+            if( attackJudgment.contactEnemy )
+            {
+                StartCoroutine( cameraMove.CameraShake( 3f, 0.2f ) );
+            }
+            StartCoroutine( Dash( maxDashDistance / 20) );
 
         }
 
@@ -280,16 +282,8 @@ public class PlayerMove : MonoBehaviour
 
         yield return new WaitForSeconds(0.15f);
 
-        if( attackedRange.dashAttackActivator )
-        {
-
-            DashAttackJudgment.SetActive(false);
-            attackedRange.dashAttackActivator = false;
-
-            StartCoroutine( cameraMove.CameraShake( 1.5f, 0.1f ) );
-
-        }
         DashAttackJudgment.SetActive(false);
+        attackedRange.dashAttackActivator = false;
 
         rb.drag = 1f;
         cldr.isTrigger = false;

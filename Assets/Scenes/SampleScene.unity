@@ -431,7 +431,7 @@ RectTransform:
   m_GameObject: {fileID: 530578944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 5, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1845682339}
@@ -441,7 +441,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 858, y: -89}
+  m_AnchoredPosition: {x: 1138, y: -190}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &530578946
@@ -712,6 +712,82 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &673624964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 673624965}
+  - component: {fileID: 673624967}
+  - component: {fileID: 673624966}
+  m_Layer: 5
+  m_Name: UltimateSlider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &673624965
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673624964}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1945899074}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 190, y: -190}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &673624966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673624964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 0
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &673624967
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673624964}
+  m_CullTransparentMesh: 1
 --- !u!1 &882313894
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,6 +928,7 @@ GameObject:
   m_Component:
   - component: {fileID: 948128495}
   - component: {fileID: 948128496}
+  - component: {fileID: 948128497}
   m_Layer: 0
   m_Name: DashAttackJudgment
   m_TagString: PlayerAttack
@@ -909,6 +986,23 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 5}
   m_Size: {x: 2, y: 10}
   m_Direction: 0
+--- !u!114 &948128497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948128494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dda5490e4cc45f5888458686abcce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraMove: {fileID: 519420033}
+  playerMove: {fileID: 1379567355}
+  shakePower: 1
+  shakeTime: 0.1
+  contactEnemy: 0
 --- !u!4 &958268523 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5661607603158471263, guid: 2225e453beba147f7bb6714243e0afb6, type: 3}
@@ -965,6 +1059,7 @@ GameObject:
   - component: {fileID: 1039113078}
   - component: {fileID: 1039113080}
   - component: {fileID: 1039113079}
+  - component: {fileID: 1039113081}
   m_Layer: 0
   m_Name: UltimateAttackMouse
   m_TagString: Untagged
@@ -1174,6 +1269,23 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &1039113081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039113075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dda5490e4cc45f5888458686abcce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraMove: {fileID: 519420033}
+  playerMove: {fileID: 1379567355}
+  shakePower: 0
+  shakeTime: 0
+  contactEnemy: 0
 --- !u!1 &1066692493
 GameObject:
   m_ObjectHideFlags: 0
@@ -6774,6 +6886,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 530578945}
+  - {fileID: 673624965}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6919,6 +7032,10 @@ PrefabInstance:
       propertyPath: mousePartical
       value: 
       objectReference: {fileID: 1095884917}
+    - target: {fileID: 5701178857268317175, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
+      propertyPath: attackJudgment
+      value: 
+      objectReference: {fileID: 1039113081}
     - target: {fileID: 5701178857268317175, guid: e7e46f8d2f3fc495dbeb876a9252e218, type: 3}
       propertyPath: maxDashDistance
       value: 10

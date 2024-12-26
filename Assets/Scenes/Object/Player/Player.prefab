@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2667319057607411867}
   - component: {fileID: 8133530904876716576}
   m_Layer: 0
-  m_Name: attackRange
+  m_Name: attackedRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -418,6 +418,10 @@ MonoBehaviour:
   maxUltimateAttackGauge: 0
   nowUltimateAttackGauge: 0
   ultimateMousePartical: {fileID: 0}
+  doingUltimateAttack: 0
+  positionUltimate: {x: 0, y: 0, z: 0}
+  mainLight: {fileID: 0}
+  cameraMove: {fileID: 0}
 --- !u!114 &4559027208158124695
 MonoBehaviour:
   m_ObjectHideFlags: 0
