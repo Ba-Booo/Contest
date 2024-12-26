@@ -13,7 +13,7 @@ public class MousePosition : MonoBehaviour
     void Update()
     {
         screenPosition = Input.mousePosition;
-        screenPosition.z = Camera.main.nearClipPlane + 30;
+        screenPosition.z = Camera.main.nearClipPlane + 10;
 
         mouse = Camera.main.ScreenToWorldPoint( screenPosition );
 

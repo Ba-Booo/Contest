@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     float slowMotionRate;
     bool slowMotionLimit = true;
-    bool doingSlowMotion;
+    public bool doingSlowMotion;
 
     float mouseAngle;                           //대쉬 방향
     [SerializeField]
@@ -40,14 +40,15 @@ public class PlayerMove : MonoBehaviour
     public GameObject DashAttackJudgment;
     public AttackedRange attackedRange;
 
-    [SerializeField] int maxUltimateAttackGauge = 0;                    //궁
-    public int nowUltimateAttackGauge;
+    public float maxUltimateAttackGauge;                    //궁
+    public float nowUltimateAttackGauge;
     [SerializeField] GameObject ultimateMousePartical;
     public bool doingUltimateAttack;
     public Vector3 positionUltimate;
     [SerializeField] AttackJudgment attackJudgment;
 
     [SerializeField] UnityEngine.Rendering.Universal.Light2D mainLight;
+    [SerializeField] UnityEngine.Rendering.Universal.Light2D myLight;
 
     Rigidbody2D rb;
     CapsuleCollider2D cldr;
@@ -79,7 +80,7 @@ public class PlayerMove : MonoBehaviour
 
             AfterSlowMotion();
 
-        }  
+        } 
 
         //대쉬 겹침 방지
         if( !Input.GetKey( KeyCode.LeftShift ) )
@@ -90,6 +91,7 @@ public class PlayerMove : MonoBehaviour
         //궁
         if( nowUltimateAttackGauge >= maxUltimateAttackGauge && Input.GetKey( KeyCode.Q ) && !doingSlowMotion )
         {
+            myLight.intensity = Mathf.Lerp( myLight.intensity, 1f, 70f * Time.deltaTime );
             UltimateAttack();
         }
         else if( nowUltimateAttackGauge >= maxUltimateAttackGauge && Input.GetKeyUp( KeyCode.Q ) && !doingSlowMotion )
@@ -98,12 +100,12 @@ public class PlayerMove : MonoBehaviour
             ultimateMousePartical.SetActive(false);
             doingUltimateAttack = false;
             nowUltimateAttackGauge = 0;
-            transform.position = positionUltimate;
             if( attackJudgment.contactEnemy )
             {
+                transform.position = positionUltimate;
                 StartCoroutine( cameraMove.CameraShake( 3f, 0.2f ) );
+                StartCoroutine( Dash( maxDashDistance / 20) );
             }
-            StartCoroutine( Dash( maxDashDistance / 20) );
 
         }
 
@@ -126,9 +128,13 @@ public class PlayerMove : MonoBehaviour
 
             moveY = 0;
             moveX = Input.GetAxis("Horizontal") * playerSpeed * Time.deltaTime;
-
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
+
+            if( !doingUltimateAttack )
+            {
+                myLight.intensity = 0f;
+            }
 
         }
 
@@ -179,7 +185,6 @@ public class PlayerMove : MonoBehaviour
             mainLight.intensity = 1f;
         }
 
-
     }
 
 
@@ -190,6 +195,7 @@ public class PlayerMove : MonoBehaviour
         //그래픽 관련
         attackRange.SetActive(true);
         mousePartical.SetActive(true);
+        myLight.intensity = Mathf.Lerp( myLight.intensity, 1f, 70f * Time.deltaTime );
 
         //방향
    	    mouseAngle = Mathf.Atan2( mousePartical.transform.position.y - transform.position.y, mousePartical.transform.position.x - transform.position.x ) * Mathf.Rad2Deg;
@@ -306,7 +312,6 @@ public class PlayerMove : MonoBehaviour
         ultimateMousePartical.SetActive(true);
 
     }
-
 
 
 

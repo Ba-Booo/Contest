@@ -30,7 +30,9 @@ public class Enemy : MonoBehaviour
     float attackRate;
     float nextAttectTime;
     public GameObject bullat;
-    
+
+    //빛
+    [SerializeField] UnityEngine.Rendering.Universal.Light2D myLight;
 
     void Start()
     {
@@ -52,6 +54,15 @@ public class Enemy : MonoBehaviour
 
             Destroy(this.gameObject);
 
+        }
+
+        if( playerStatus.doingSlowMotion | playerStatus.doingUltimateAttack )
+        {
+            myLight.intensity = Mathf.Lerp( myLight.intensity, 1f, 70f * Time.deltaTime );
+        }
+        else
+        {
+            myLight.intensity = 0f;
         }
 
 
