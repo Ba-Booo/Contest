@@ -33,10 +33,14 @@ public class Enemy : MonoBehaviour
 
     //빛
     [SerializeField] UnityEngine.Rendering.Universal.Light2D myLight;
+    [SerializeField] UnityEngine.Rendering.Universal.Light2D shootingLight;
+
+    AudioSource audioSource;
 
     void Start()
     {
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -80,7 +84,7 @@ public class Enemy : MonoBehaviour
         }
         else if( distance <= attackRange && nextAttectTime <= Time.time )
         {
-            Instantiate( bullat, transform.position, Quaternion.identity);
+            StartCoroutine( Shooting() );
             nextAttectTime = Time.time + attackRate;
         }
 
@@ -111,13 +115,31 @@ public class Enemy : MonoBehaviour
 
             if( !deadPosition )
             {
-
+                audioSource.Play();
                 playerStatus.positionUltimate = transform.position;
                 deadPosition = true;
 
             }
 
         }
+
+    }
+
+    IEnumerator Shooting()
+    {
+
+        while( shootingLight.intensity <= 0.3f)
+        {
+            shootingLight.intensity += 0.01f;
+            yield return new WaitForSeconds( 0.01f );
+        }
+        while( shootingLight.intensity >= 0f)
+        {
+            shootingLight.intensity -= 0.2f;
+            yield return new WaitForSeconds( 0.01f );
+        }
+
+        Instantiate( bullat, transform.position, Quaternion.identity);
 
     }
 

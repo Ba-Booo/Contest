@@ -39,7 +39,7 @@ public class Button : MonoBehaviour
 
         }
 
-        SceneManager.LoadScene( "SampleScene" );
+        SceneManager.LoadScene( "Tutorial" );
 
     }
 

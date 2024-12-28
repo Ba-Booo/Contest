@@ -18,7 +18,7 @@ public class UltimateAttackCollider : MonoBehaviour
 
     void Update()
     {
-
+    
         List<Vector2> points = new List<Vector2>();
 
         for( int position = 0; position < trail.positionCount; position ++ )

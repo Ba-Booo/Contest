@@ -17,7 +17,7 @@ public class AttackJudgment : MonoBehaviour
         {
 
             StartCoroutine( cameraMove.CameraShake( shakePower, shakeTime ) );
-
+            
         }
 
     }

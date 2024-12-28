@@ -8,8 +8,6 @@ public class MousePosition : MonoBehaviour
     Vector3 screenPosition;
     Vector3 mouse;
 
-
-
     void Update()
     {
         screenPosition = Input.mousePosition;

@@ -14,9 +14,12 @@ public class BulletMove : MonoBehaviour
     PlayerUI playerHP;
     PlayerMove playerState; 
 
+    //총소리
+    AudioSource audioSource;
+
     void Start()
     {     
-        
+        audioSource = GetComponent<AudioSource>();
         bullatRB = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectWithTag("Player");
         playerHP = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUI>();
@@ -25,8 +28,15 @@ public class BulletMove : MonoBehaviour
         Vector2 moveDir = (target.transform.position - transform.position).normalized * bullatSpeed;
         bullatRB.velocity = moveDir;
 
+        audioSource.Play();
+
         Destroy(this.gameObject, 2);
 
+    }
+
+    void Update()
+    {
+        audioSource.pitch = Time.timeScale * 2f;
     }
 
 
@@ -46,6 +56,8 @@ public class BulletMove : MonoBehaviour
         else if( collision.gameObject.tag == "Player" && !playerState.dashing  )
         {
             playerState.wasAttacked = true;
+            playerHP.playerNowHP -= 1;
+            Destroy( this.gameObject);
         }
 
         if( collision.gameObject.tag == "Ground" )
