@@ -8,8 +8,9 @@ public class CameraMove : MonoBehaviour
     [SerializeField] GameObject target;
     [SerializeField] PlayerMove pm;
 
-    [SerializeField] Vector2 xRange;
-    [SerializeField] Vector2 yRange;
+    public Vector2 xRange;
+    public Vector2 yRange;
+    public bool screenTransition;
 
     [SerializeField]
     float cameraMoveSpeed;
@@ -44,20 +45,24 @@ public class CameraMove : MonoBehaviour
     void LateUpdate()
     {
 
-        if( pm.dashing && !cameraShaking )
+        if( pm.dashing && !cameraShaking && !screenTransition )
         {
             transform.position = Vector3.Lerp(transform.position, target.transform.position, 100f * Time.deltaTime);
         }
-        else
+        else if( !screenTransition )
         {
             transform.position = Vector3.Lerp(transform.position, target.transform.position, cameraMoveSpeed * Time.deltaTime);
         }
 
-        float xClamp = Mathf.Clamp( transform.position.x, xRange.x, xRange.y );
-        float yClamp = Mathf.Clamp( transform.position.y, yRange.x, yRange.y );
 
-        transform.position = new Vector3(xClamp, yClamp, -10f);
+        if( !screenTransition )
+        {
+            float xClamp = Mathf.Clamp( transform.position.x, xRange.x, xRange.y );
+            float yClamp = Mathf.Clamp( transform.position.y, yRange.x, yRange.y );
 
+            transform.position = new Vector3(xClamp, yClamp, -10f);
+        }
+        
     }
 
     public IEnumerator CameraShake( float power, float shakeTime )
@@ -90,6 +95,8 @@ public class CameraMove : MonoBehaviour
         {
             camera.orthographicSize = ( -( 1f / 16f ) * ( Mathf.Pow( ultimateCameraZoom - 3f, 2) ) ) + 15f;
             ultimateCameraZoom += 0.3f;
+            transform.position = Vector3.Lerp(transform.position, target.transform.position, 10f);
+            transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
             yield return new WaitForSeconds(0.001f);
         }
 

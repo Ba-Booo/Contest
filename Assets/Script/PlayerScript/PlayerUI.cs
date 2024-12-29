@@ -5,21 +5,29 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
+
+    [SerializeField] 
+    bool tutorial;
+
     [SerializeField]
     int playerMaxHP;
     public int playerNowHP;
 
-    PlayerMove ultimateGauge;
+    PlayerMove playerGauge;
 
-    public Slider hpSlider;
-    public Image ultimateSlider;
+    [SerializeField] Slider hpSlider;
+    [SerializeField] Image ultimateSlider;
+    [SerializeField] Image dashSlider;
 
     void Start()
     {
 
-        ultimateGauge = GetComponent<PlayerMove>();
+        playerGauge = GetComponent<PlayerMove>();
 
-        playerNowHP = playerMaxHP;
+        if( !tutorial )
+        {
+            playerNowHP = playerMaxHP;
+        }
         hpSlider.maxValue = playerMaxHP;
 
     }
@@ -28,7 +36,8 @@ public class PlayerUI : MonoBehaviour
     {
 
         hpSlider.value = playerNowHP;
-        ultimateSlider.fillAmount = Mathf.Lerp( ultimateSlider.fillAmount, ultimateGauge.nowUltimateAttackGauge / ultimateGauge.maxUltimateAttackGauge, 3f * Time.deltaTime );
+        ultimateSlider.fillAmount = Mathf.Lerp( ultimateSlider.fillAmount, playerGauge.nowUltimateAttackGauge / playerGauge.maxUltimateAttackGauge, 3f * Time.deltaTime );
+        dashSlider.fillAmount = playerGauge.nowSlowMotionGauge / playerGauge.maxSlowMotionGauge;
 
     }
 

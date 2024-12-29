@@ -7,41 +7,46 @@ using UnityEngine.SceneManagement;
 public class Door : MonoBehaviour
 {
 
+    [SerializeField] Transform cameraMovePosition;
+    [SerializeField] CameraMove cameraMove;
+    [SerializeField] Vector3 screenTransitionPosition;
 
-    [SerializeField] GameObject fade;
-    Color fadeColor;
+    [SerializeField] Vector2 changeXRange;
+    [SerializeField] Vector2 changeYRange;
 
-    void Start()
+    [SerializeField] GameObject wall;
+
+
+    void OnTriggerEnter2D( Collider2D collision )
     {
-        fadeColor = fade.GetComponent<Image>().color;
+
+        if(collision.gameObject.tag == "Player" && !cameraMove.screenTransition )
+        {
+
+            cameraMove.screenTransition = true;
+
+            StartCoroutine( ChangeScreen() );
+
+        }
+        
     }
 
-    IEnumerator FadeIn()
+    IEnumerator ChangeScreen()
     {
+
+        cameraMove.screenTransition = true;
+        wall.SetActive(true);
         
-        while( fadeColor.a < 1f )
+        while( ( cameraMovePosition.position.x > screenTransitionPosition.x + 0.1f | cameraMovePosition.position.x < screenTransitionPosition.x - 0.1f) && ( cameraMovePosition.position.x > screenTransitionPosition.x + 0.1f | cameraMovePosition.position.x < screenTransitionPosition.x  - 0.1f ) )
         {
-            fadeColor.a += Time.deltaTime;
-
-            fade.GetComponent<Image>().color = fadeColor;
-
+            cameraMovePosition.position = Vector3.Lerp( cameraMovePosition.position, screenTransitionPosition, 0.1f );
             yield return new WaitForSeconds(0.01f);
-
         }
 
-        SceneManager.LoadScene( "SampleScene" );
+        cameraMove.xRange = changeXRange;
+        cameraMove.yRange = changeYRange;
+        cameraMove.screenTransition = false;
 
     }
-
-    void OnTriggerStay2D( Collider2D collision )
-    {
-
-        if(collision.gameObject.tag == "Player" && Input.GetKey( KeyCode.E ) )
-        {
-            StartCoroutine( FadeIn() );
-        }
-        
-    }
-
 
 }

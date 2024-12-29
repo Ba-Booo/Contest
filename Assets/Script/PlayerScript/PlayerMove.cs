@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
 
     float moveX, moveY;
 
-    [SerializeField] bool tutorial;
+    public bool tutorial;
 
     [SerializeField] float playerSpeed;         //움직임     
     [SerializeField] float slowMotionSpeed;
@@ -20,7 +20,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float jumpPower;
 
     public float nowSlowMotionGauge;                   //슬로우모션
-    [SerializeField] float maxSlowMotionGauge;
+    public float maxSlowMotionGauge;
     public float nextSlowMotionTime;
     [SerializeField] float slowMotionRate;
     bool slowMotionLimit = true;
@@ -105,6 +105,7 @@ public class PlayerMove : MonoBehaviour
         else if( ( nowUltimateAttackGauge >= maxUltimateAttackGauge && !Input.GetKey( KeyCode.Q ) && !doingSlowMotion && doingUltimateAttack ) | ( !doingUltimateAttack && Input.GetKey( KeyCode.Q ) ))
         {
             
+            cameraMove.screenTransition = false;
             ultimateMousePartical.SetActive(false);
             doingUltimateAttack = false;
             nowUltimateAttackGauge = 0;
@@ -341,6 +342,7 @@ public class PlayerMove : MonoBehaviour
     void UltimateAttack()
     {
 
+        cameraMove.screenTransition = true;
         doingUltimateAttack = true;
         dashing = true;
 
