@@ -90,7 +90,7 @@ public class PlayerMove : MonoBehaviour
             
             StopCoroutine( cameraMove.CameraShake( 1f, 0.1f) );
 
-            myLight.intensity = Mathf.Lerp( myLight.intensity, 1f, 70f * Time.deltaTime );
+            myLight.intensity = Mathf.Lerp( myLight.intensity, 0.5f, 70f * Time.deltaTime );
             
 
             if( !doingUltimateAttack )
@@ -207,7 +207,7 @@ public class PlayerMove : MonoBehaviour
 
         if( doingSlowMotion | doingUltimateAttack )
         {
-            mainLight.intensity = Mathf.Lerp( mainLight.intensity, 0.5f, 70f * Time.deltaTime );
+            mainLight.intensity = Mathf.Lerp( mainLight.intensity, 0.3f, 70f * Time.deltaTime );
         }
         else if( ultimateLight )
         {
@@ -215,7 +215,7 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            mainLight.intensity = 1f;
+            mainLight.intensity = 0.5f;
         }
 
     }
@@ -230,7 +230,7 @@ public class PlayerMove : MonoBehaviour
         //그래픽 관련
         attackRange.SetActive(true);
         mousePartical.SetActive(true);
-        myLight.intensity = Mathf.Lerp( myLight.intensity, 1f, 70f * Time.deltaTime );
+        myLight.intensity = Mathf.Lerp( myLight.intensity, 0.5f, 70f * Time.deltaTime );
 
         //방향
    	    mouseAngle = Mathf.Atan2( mousePartical.transform.position.y - transform.position.y, mousePartical.transform.position.x - transform.position.x ) * Mathf.Rad2Deg;

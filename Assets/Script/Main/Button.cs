@@ -10,8 +10,11 @@ public class Button : MonoBehaviour
     [SerializeField] GameObject fade;
     Color fadeColor;
 
+    AudioSource audioSource;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         fadeColor = fade.GetComponent<Image>().color;
     }
 
@@ -38,6 +41,9 @@ public class Button : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
 
         }
+
+        audioSource.Play();
+        yield return new WaitForSeconds(5.2f);
 
         SceneManager.LoadScene( "Tutorial" );
 

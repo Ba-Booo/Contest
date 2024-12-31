@@ -19,6 +19,7 @@ public class CameraMove : MonoBehaviour
 
     Camera camera;
     float ultimateCameraZoom;
+    public float cameraZoomSize;
 
     AudioSource audioSource;
 
@@ -93,17 +94,16 @@ public class CameraMove : MonoBehaviour
 
         while( camera.orthographicSize > 2f)
         {
-            camera.orthographicSize = ( -( 1f / 16f ) * ( Mathf.Pow( ultimateCameraZoom - 3f, 2) ) ) + 15f;
+            camera.orthographicSize = ( -( 1f / 16f ) * ( Mathf.Pow( ultimateCameraZoom - 3f, 2) ) ) + cameraZoomSize + 2f;
             ultimateCameraZoom += 0.3f;
             transform.position = Vector3.Lerp(transform.position, target.transform.position, 10f);
             transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
             yield return new WaitForSeconds(0.001f);
         }
 
-        camera.orthographicSize = 13f;
+        camera.orthographicSize = cameraZoomSize;
         pm.nowUltimateAttackGauge = 0;
         pm.doingUltimateAttack = false;
-        
 
     }
 

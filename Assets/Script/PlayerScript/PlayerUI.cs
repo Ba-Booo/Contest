@@ -9,8 +9,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] 
     bool tutorial;
 
-    [SerializeField]
-    int playerMaxHP;
+    public int playerMaxHP;
     public int playerNowHP;
 
     PlayerMove playerGauge;
