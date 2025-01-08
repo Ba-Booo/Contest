@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMove : MonoBehaviour
+public class CameraMoveTutorial : MonoBehaviour
 {
-
+    
     [SerializeField] GameObject target;
-    [SerializeField] PlayerMove pm;
+    [SerializeField] PlayerMoveTutorial pm;
 
     public Vector2 xRange;
     public Vector2 yRange;
@@ -93,6 +93,20 @@ public class CameraMove : MonoBehaviour
         cameraShaking = true;
         ultimateCameraZoom = 0f;
 
+        while( ultimateCameraZoom < 3f)
+        {
+            camera.orthographicSize = ( -( 1f / 16f ) * ( Mathf.Pow( ultimateCameraZoom - 3f, 2) ) ) + cameraZoomSize + 2f;
+            ultimateCameraZoom += 0.3f;
+            transform.position = Vector3.Lerp(transform.position, target.transform.position, 10f);
+            transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
+            yield return new WaitForSeconds(0.001f);
+        }
+
+    }
+
+    public IEnumerator AfterUltimateAttackCamera()
+    {
+
         while( camera.orthographicSize > 2f)
         {
             camera.orthographicSize = ( -( 1f / 16f ) * ( Mathf.Pow( ultimateCameraZoom - 3f, 2) ) ) + cameraZoomSize + 2f;
@@ -102,6 +116,10 @@ public class CameraMove : MonoBehaviour
             yield return new WaitForSeconds(0.001f);
         }
 
+        if( pm.enemyCount == 4 )
+        {
+            pm.enemyCount += 1;
+        }
         camera.orthographicSize = cameraZoomSize;
         pm.nowUltimateAttackGauge = 0;
 

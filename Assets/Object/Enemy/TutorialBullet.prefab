@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4640892601427514512}
   - component: {fileID: 1864709567466546106}
   - component: {fileID: 7316603565839742134}
-  - component: {fileID: 499490441749721757}
   - component: {fileID: 8547075565860446103}
   - component: {fileID: 1328665713772153327}
   - component: {fileID: 7524037376305784435}
@@ -79,8 +78,8 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.1
-  m_PreviewTimeScale: 0
+  m_Time: 1000000
+  m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -185,19 +184,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5
---- !u!114 &499490441749721757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6009473858953828180}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34f1b167dcd8f4127b5e4474323399b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullatSpeed: 35
 --- !u!50 &8547075565860446103
 Rigidbody2D:
   serializedVersion: 4

@@ -16,7 +16,7 @@ public class UltimateAttackCollider : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
     
         List<Vector2> points = new List<Vector2>();

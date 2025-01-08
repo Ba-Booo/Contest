@@ -5,14 +5,14 @@ using UnityEngine;
 public class DashTutorial : MonoBehaviour
 {
 
-    CameraMove cameraMove;
+    CameraMoveTutorial cameraMove;
     Camera camera;
 
     [SerializeField] Transform targetTransform;
     [SerializeField] GameObject targetObject;
     [SerializeField] Transform enemy;
 
-    [SerializeField] PlayerMove playerMove;
+    [SerializeField] PlayerMoveTutorial playerMove;
     [SerializeField] AttackedRange attackedRange;
 
     [SerializeField] GameObject dashAttackGuideText;
@@ -27,14 +27,14 @@ public class DashTutorial : MonoBehaviour
 
     void Start()
     {
-        cameraMove = GetComponent<CameraMove>();
+        cameraMove = GetComponent<CameraMoveTutorial>();
         camera = GetComponent<Camera>();
     }
 
     void Update()
     {
 
-        if( targetTransform.position.x > executionPosition && inputTutorialDashMove == 0 )
+        if( targetTransform.position.x > executionPosition )
         {
 
             if( !cameraMove.screenTransition)
@@ -46,12 +46,6 @@ public class DashTutorial : MonoBehaviour
             }
 
         }
-
-        if( inputTutorialDashMove != 4 )
-        {
-            playerMove.nowSlowMotionGauge = playerMove.maxSlowMotionGauge;
-        }
-
 
         switch( inputTutorialDashMove )
         {
@@ -87,7 +81,7 @@ public class DashTutorial : MonoBehaviour
 
             case 3:
 
-                if( !Input.GetKey( KeyCode.LeftShift ) )
+                if( playerMove.tutorial == 3 )
                 {
                     cameraMove.screenTransition = false;
                     tutorialShift.SetActive(false);
@@ -95,6 +89,8 @@ public class DashTutorial : MonoBehaviour
                     dashAttackGuideText.SetActive(false);
                     inputTutorialDashMove = 4;
                     playerMove.nowUltimateAttackGauge -= 0.01f;
+                    
+                    this.gameObject.GetComponent<DashTutorial>().enabled = false;
                 }
 
                 break;
@@ -106,7 +102,7 @@ public class DashTutorial : MonoBehaviour
     IEnumerator TutorialAnimation()
     {
 
-        targetObject.GetComponent<PlayerMove>().enabled = false;
+        targetObject.GetComponent<PlayerMoveTutorial>().enabled = false;
         targetObject.GetComponent<PlayerSound>().enabled = false;
 
         while( transform.position.x < enemy.position.x - 0.1f)
@@ -135,10 +131,10 @@ public class DashTutorial : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        targetObject.GetComponent<PlayerMove>().enabled = true;
+        targetObject.GetComponent<PlayerMoveTutorial>().enabled = true;
         targetObject.GetComponent<PlayerSound>().enabled = true;
-        playerMove.tutorial = false;
         dashAttackGuideText.SetActive(true);
+        playerMove.tutorial += 1;
 
         inputTutorialDashMove = 1;
 

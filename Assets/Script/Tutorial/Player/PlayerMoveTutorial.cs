@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMoveTutorial : MonoBehaviour
 {
 
     float moveX, moveY;
 
-    public bool tutorial;
+    public int tutorial = 0;
 
     [SerializeField] float playerSpeed;         //움직임     
     [SerializeField] float slowMotionSpeed;
@@ -21,11 +21,12 @@ public class PlayerMove : MonoBehaviour
 
     public float nowSlowMotionGauge;                   //슬로우모션
     public float maxSlowMotionGauge;
-    public float nextSlowMotionTime;
-    [SerializeField] float slowMotionRate;
     bool slowMotionLimit = true;
     public bool doingSlowMotion;
     public bool wasAttacked;
+    public bool enemyContact;
+    public bool hitBullet;
+    [SerializeField] DashTutorial dashTutorial;
 
     float mouseAngle;                           //대쉬 방향
     [SerializeField] GameObject attackRange;
@@ -41,15 +42,16 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] GameObject ultimateMousePartical;
     public bool doingUltimateAttack;
     public Vector3 positionUltimate;
-    [SerializeField] UltimateJudgment ultimateJudgment;
+    [SerializeField] UltimateJudgmentTutorial ultimateJudgment;
     bool ultimateLight;
+    public int enemyCount = 0;
 
     [SerializeField] UnityEngine.Rendering.Universal.Light2D mainLight;
     [SerializeField] UnityEngine.Rendering.Universal.Light2D myLight;
 
     Rigidbody2D rb;
     CapsuleCollider2D cldr;
-    [SerializeField] CameraMove cameraMove;
+    [SerializeField] CameraMoveTutorial cameraMove;
 
 
     void Start()
@@ -69,19 +71,23 @@ public class PlayerMove : MonoBehaviour
         Move();
         LightEffect();
         Animation();
+        Tutorial();
 
         //슬로우 모션 후
-        if( ( ( Input.GetKeyUp( KeyCode.LeftShift ) && nextSlowMotionTime <= Time.time ) | nowSlowMotionGauge <= 0 ) && slowMotionLimit )
+        if ( ( ( ( !Input.GetKey( KeyCode.LeftShift ) ) && slowMotionLimit ) | nowSlowMotionGauge <= 0 ) && tutorial == 2 )
         {
 
             AfterSlowMotion();
 
         } 
 
-        //대쉬 겹침 방지
-        if( !Input.GetKey( KeyCode.LeftShift ) )
+        if( hitBullet )
         {
-            slowMotionLimit = true;
+            
+            hitBullet = false;
+            transform.position = new Vector2( 28f, -0.1f );
+            nowSlowMotionGauge = maxSlowMotionGauge;
+
         }
 
         //궁
@@ -99,7 +105,13 @@ public class PlayerMove : MonoBehaviour
             UltimateAttack();
 
         }
-        else if(  nowUltimateAttackGauge == 0f && !doingSlowMotion && doingUltimateAttack )
+
+        if( enemyCount == 3 )
+        {
+            enemyCount += 1;
+            StartCoroutine( cameraMove.AfterUltimateAttackCamera() );
+        }
+        else if( enemyCount == 5 )
         {
             
             cameraMove.screenTransition = false;
@@ -113,7 +125,7 @@ public class PlayerMove : MonoBehaviour
                 ultimateLight = true;
                 transform.position = positionUltimate;
 
-                StartCoroutine( cameraMove.CameraShake( 5f, 0.5f ) );
+                StartCoroutine( cameraMove.CameraShake( 2f, 0.4f ) );
                 StartCoroutine( Dash( maxDashDistance / 20) );
                 ultimateJudgment.contactEnemy = false;
                 
@@ -126,14 +138,60 @@ public class PlayerMove : MonoBehaviour
     }
 
 
+    void Tutorial()
+    {
+
+        switch( tutorial )
+        {
+            case 0:
+
+                if( transform.position.x >= -1f )
+                {
+                    tutorial = 1;
+                }
+
+                break;
+            
+            case 3:
+             
+                if( transform.position.x >= 68f )
+                {
+                    tutorial = 4;
+                }
+
+                break;
+
+        }
+
+    }
+
+
 
     void Move()
     {
 
         //움직임
-        if( Input.GetKey( KeyCode.LeftShift ) &&  nowSlowMotionGauge >= 0 && nextSlowMotionTime <= Time.time && slowMotionLimit && !doingUltimateAttack )      //슬로우모션
+        if( Input.GetKey( KeyCode.LeftShift ) && nowSlowMotionGauge >= 0 && slowMotionLimit && !doingUltimateAttack && tutorial == 2 )   //슬로우모션
         {
             SlowMotion();  
+        }
+        else if( tutorial == 2 )
+        {
+            moveX = 0f;
+            Time.timeScale = 1f;
+            Time.fixedDeltaTime = 0.02f;
+
+            if( !doingUltimateAttack )
+            {
+                myLight.intensity = 0f;
+            }
+
+            if( wasAttacked )
+            {
+                StartCoroutine( cameraMove.CameraShake( 1f, 0.1f ) );
+                wasAttacked = false;
+            }
+
         }
         else
         {
@@ -157,7 +215,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         //점프
-        if( Input.GetKeyDown( KeyCode.W ) && jumpPrevention && !doingSlowMotion )
+        if( Input.GetKeyDown( KeyCode.W ) && jumpPrevention && !doingSlowMotion && tutorial > 0 )
         {
             rb.AddForce( Vector2.up * jumpPower, ForceMode2D.Impulse );
             jumpPrevention = false;
@@ -214,7 +272,12 @@ public class PlayerMove : MonoBehaviour
     void SlowMotion()
     {
 
+
         doingSlowMotion = true;
+
+        DashAttackJudgment.SetActive(true);
+        DashAttackJudgment.transform.position = transform.position;
+        DashAttackJudgment.transform.rotation = attackRange.transform.rotation;
 
         //그래픽 관련
         attackRange.SetActive(true);
@@ -250,9 +313,8 @@ public class PlayerMove : MonoBehaviour
     void AfterSlowMotion()
     {
 
-        slowMotionLimit = false;
-        nextSlowMotionTime = Time.time + slowMotionRate;
         nowSlowMotionGauge = maxSlowMotionGauge;
+        doingSlowMotion = false;
         attackRange.SetActive(false);
         mousePartical.SetActive(false);
 
@@ -260,34 +322,40 @@ public class PlayerMove : MonoBehaviour
         int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");                 //땅 관련
         RaycastHit2D hit = Physics2D.Raycast( transform.position, mousePartical.transform.position - transform.position, maxDashDistance, groundLayerMask);
 
-        if( hit && !wasAttacked )
+
+        if(enemyContact && !hitBullet && dashTutorial.inputTutorialDashMove == 3 )
         {
-            StartCoroutine( Dash( ( Vector3.Distance( transform.position, hit.point ) ) - 1f ) );
-        }
-        else if( !wasAttacked )
-        {
-            StartCoroutine( Dash( maxDashDistance ) );
+
+            slowMotionLimit = false;
+
+            if( hit && !wasAttacked )
+            {
+                StartCoroutine( Dash( ( Vector3.Distance( transform.position, hit.point ) ) - 1f ) );
+            }
+            else if( !wasAttacked )
+            {
+                StartCoroutine( Dash( maxDashDistance ) );
+            }
+            else
+            {
+                StartCoroutine( cameraMove.CameraShake( 1f, 0.1f ) );
+                doingSlowMotion = false;
+                wasAttacked = false;
+            }
+
         }
         else
         {
-            StartCoroutine( cameraMove.CameraShake( 1f, 0.1f ) );
-            doingSlowMotion = false;
-            wasAttacked = false;
-        }
-        
-    }
 
+            transform.position = new Vector2( 28f, -0.1f );
+            
+        }
+
+    }
 
 
     IEnumerator Dash( float dashDistance )
     {
-
-        if( attackedRange.dashAttackActivator )
-        {
-            DashAttackJudgment.SetActive(true);
-            DashAttackJudgment.transform.position = transform.position;
-            DashAttackJudgment.transform.rotation = attackRange.transform.rotation;
-        }
 
         rb.drag = ( 35f * dashDistance ) / 8f;
         cldr.isTrigger = true;
@@ -321,7 +389,6 @@ public class PlayerMove : MonoBehaviour
 
         rb.drag = 1f;
         cldr.isTrigger = false;
-        dashing = false;
         doingSlowMotion = false;
 
     }
@@ -387,6 +454,7 @@ public class PlayerMove : MonoBehaviour
         {
             cldr.isTrigger = false;
         }
+
 
     }
 

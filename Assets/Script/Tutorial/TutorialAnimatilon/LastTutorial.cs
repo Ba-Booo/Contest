@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 public class LastTutorial : MonoBehaviour
 {
 
-    CameraMove cameraMove;
+    CameraMoveTutorial cameraMove;
     Camera camera;
 
     [SerializeField] Transform targetTransform;
     [SerializeField] Transform wall;
     [SerializeField] GameObject targetObject;
 
-    [SerializeField] PlayerMove playerMove;
+    [SerializeField] PlayerMoveTutorial playerMove;
 
     [SerializeField] GameObject tutorialEnemy;
 
@@ -25,7 +25,7 @@ public class LastTutorial : MonoBehaviour
 
     void Start()
     {
-        cameraMove = GetComponent<CameraMove>();
+        cameraMove = GetComponent<CameraMoveTutorial>();
         camera = GetComponent<Camera>();
     }
 
@@ -50,7 +50,7 @@ public class LastTutorial : MonoBehaviour
     IEnumerator TutorialAnimation()
     {
 
-        targetObject.GetComponent<PlayerMove>().enabled = false;
+        targetObject.GetComponent<PlayerMoveTutorial>().enabled = false;
         targetObject.GetComponent<PlayerSound>().enabled = false;
 
         while( transform.position.x < wall.position.x - 0.1f)

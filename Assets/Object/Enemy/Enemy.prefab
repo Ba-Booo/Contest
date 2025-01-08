@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5661607603158471263}
   - component: {fileID: 537576133041713748}
-  - component: {fileID: 3787076237177174331}
+  - component: {fileID: 3530377838806963451}
   - component: {fileID: 7910727818351969324}
   - component: {fileID: 5482888661898674439}
   - component: {fileID: 2717265146415883678}
@@ -172,7 +172,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3787076237177174331
+--- !u!114 &3530377838806963451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,10 +189,10 @@ MonoBehaviour:
   dashJudgment: {fileID: 0}
   bloodParticle: {fileID: 5695577022004569089, guid: 9852fcde948d74df2b9c2f83c28d6e25, type: 3}
   playerStatus: {fileID: 0}
-  viewingRange: 15
+  viewingRange: 10
   attackRange: 10
   target: {fileID: 0}
-  enemySpeed: 2
+  enemySpeed: 1
   attackRate: 1
   bullat: {fileID: 6009473858953828180, guid: c99da728e15de4eb1b65a6ffdf1d32d6, type: 3}
   myLight: {fileID: 946949333856596718}

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UltimateJudgment : MonoBehaviour
+public class UltimateJudgmentTutorial : MonoBehaviour
 {
 
-    [SerializeField] PlayerMove receivedValue;
+    [SerializeField] PlayerMoveTutorial receivedValue;
 
     public bool contactEnemy;
 
@@ -15,6 +15,7 @@ public class UltimateJudgment : MonoBehaviour
         if(collision.gameObject.tag == "Enemy" )
         {
             contactEnemy = true;
+            receivedValue.enemyCount += 1;
         }
 
     }

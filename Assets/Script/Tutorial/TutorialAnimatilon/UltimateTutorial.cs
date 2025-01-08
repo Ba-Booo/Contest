@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class UltimateTutorial : MonoBehaviour
 {
-    CameraMove cameraMove;
+    CameraMoveTutorial cameraMove;
     Camera camera;
 
     [SerializeField] Transform targetTransform;
     [SerializeField] GameObject targetObject;
     [SerializeField] Transform enemy;
 
-    [SerializeField] PlayerMove playerMove;
+    [SerializeField] PlayerMoveTutorial playerMove;
 
     [SerializeField] GameObject ultimateGuideText;
     [SerializeField] GameObject tutorialQ;
@@ -22,7 +22,7 @@ public class UltimateTutorial : MonoBehaviour
 
     void Start()
     {
-        cameraMove = GetComponent<CameraMove>();
+        cameraMove = GetComponent<CameraMoveTutorial>();
         camera = GetComponent<Camera>();
     }
 
@@ -63,7 +63,7 @@ public class UltimateTutorial : MonoBehaviour
     IEnumerator TutorialAnimation()
     {
 
-        targetObject.GetComponent<PlayerMove>().enabled = false;
+        targetObject.GetComponent<PlayerMoveTutorial>().enabled = false;
         targetObject.GetComponent<PlayerSound>().enabled = false;
 
         while( transform.position.x < enemy.position.x - 0.1f)
@@ -91,9 +91,8 @@ public class UltimateTutorial : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         playerMove.nowUltimateAttackGauge += 1f;
-        playerMove.tutorial = false;
 
-        targetObject.GetComponent<PlayerMove>().enabled = true;
+        targetObject.GetComponent<PlayerMoveTutorial>().enabled = true;
         targetObject.GetComponent<PlayerSound>().enabled = true;
 
         tutorialQ.SetActive(true);

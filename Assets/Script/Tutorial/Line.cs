@@ -27,6 +27,7 @@ public class Line : MonoBehaviour
 
     int lineOrder = 0;
     int lineInput = 0;
+    [SerializeField] int lineDelay = 0;
 
 
     [SerializeField] PlayerMove playerMove;
@@ -59,7 +60,7 @@ public class Line : MonoBehaviour
     void Update()
     {
         
-        if( Input.GetKeyDown( KeyCode.E  ) )
+        if( Input.GetKeyDown( KeyCode.E  ) && lineInput == lineDelay - 1 )
         {
             lineInput += 1;
         }
@@ -291,7 +292,7 @@ public class Line : MonoBehaviour
 
         }
 
-        colors = gameObjects.GetComponent<TMP_Text>().color;
+        lineDelay += 1;
 
     }
 
